@@ -5,7 +5,8 @@
   "description": "Extract job descriptions and prepare them for Claude assessment",
   "permissions": [
     "activeTab",
-    "scripting"
+    "scripting",
+    "storage"
   ],
   "action": {
     "default_popup": "popup.html",

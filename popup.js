@@ -100,11 +100,55 @@ document.getElementById('extractBtn').addEventListener('click', async () => {
   }
 });
 
-document.getElementById('openClaudeBtn').addEventListener('click', () => {
-  // Update this URL to your actual Claude project URL
-  chrome.tabs.create({ 
-    url: 'https://claude.ai/project/YOUR_PROJECT_ID'
+document.getElementById('openClaudeBtn').addEventListener('click', async () => {
+  const { claudeProjectId } = await chrome.storage.local.get('claudeProjectId');
+
+  if (!claudeProjectId) {
+    const status = document.getElementById('status');
+    status.className = 'status error';
+    status.textContent = 'Please save your Claude Project ID in the settings below first.';
+    return;
+  }
+
+  chrome.tabs.create({
+    url: `https://claude.ai/project/${claudeProjectId}`
   });
+});
+
+// Load saved project ID on popup open
+document.addEventListener('DOMContentLoaded', async () => {
+  const { claudeProjectId } = await chrome.storage.local.get('claudeProjectId');
+  if (claudeProjectId) {
+    document.getElementById('projectIdInput').value = claudeProjectId;
+  }
+});
+
+// Save project ID
+document.getElementById('saveBtn').addEventListener('click', async () => {
+  const projectId = document.getElementById('projectIdInput').value.trim();
+  const status = document.getElementById('status');
+
+  if (!projectId) {
+    status.className = 'status error';
+    status.textContent = 'Please enter a Project ID.';
+    return;
+  }
+
+  // Basic validation - Claude project IDs start with 'proj_'
+  if (!projectId.startsWith('proj_')) {
+    status.className = 'status error';
+    status.textContent = 'Invalid Project ID format. Should start with "proj_"';
+    return;
+  }
+
+  await chrome.storage.local.set({ claudeProjectId: projectId });
+
+  status.className = 'status success';
+  status.textContent = '✓ Project ID saved!';
+
+  setTimeout(() => {
+    status.textContent = '';
+  }, 3000);
 });
 
 // This function runs in the context of the web page
