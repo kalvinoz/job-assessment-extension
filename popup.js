@@ -40,34 +40,34 @@ const ASSESSMENT_PROMPT = `I found this job opportunity. Please assess it agains
 
 `;
 
-document.getElementById('extractBtn').addEventListener('click', async () => {
-  const button = document.getElementById('extractBtn');
+// Shared function to extract and copy job description
+async function extractAndCopy(button, originalButtonText) {
   const status = document.getElementById('status');
-  
+
   button.disabled = true;
   button.textContent = 'Extracting...';
   status.innerHTML = '';
-  
+
   try {
     // Get the active tab
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    
+
     // Execute content script to extract job details
     const results = await chrome.scripting.executeScript({
       target: { tabId: tab.id },
       func: extractJobDescription,
       args: [JOB_SELECTORS]
     });
-    
+
     const jobData = results[0].result;
-    
+
     if (!jobData.description || jobData.description.length < 50) {
       throw new Error('Could not find job description on this page');
     }
-    
+
     // Format the complete text to copy
     let textToCopy = ASSESSMENT_PROMPT;
-    
+
     if (jobData.title) {
       textToCopy += `**Title:** ${jobData.title}\n`;
     }
@@ -80,27 +80,34 @@ document.getElementById('extractBtn').addEventListener('click', async () => {
     if (jobData.url) {
       textToCopy += `**URL:** ${jobData.url}\n`;
     }
-    
+
     textToCopy += `\n---\n\n${jobData.description}`;
-    
+
     // Copy to clipboard
     await navigator.clipboard.writeText(textToCopy);
-    
+
     status.className = 'status success';
-    status.textContent = `✓ Copied! ${Math.round(jobData.description.length / 1000)}k characters ready to paste into Claude.`;
-    
-    button.textContent = 'Extract & Copy Job Description';
+    status.textContent = `✓ Copied! ${Math.round(jobData.description.length / 1000)}k characters ready to paste.`;
+
+    button.textContent = originalButtonText;
     button.disabled = false;
-    
+
+    return true;
   } catch (error) {
     status.className = 'status error';
     status.textContent = `Error: ${error.message}`;
-    button.textContent = 'Extract & Copy Job Description';
+    button.textContent = originalButtonText;
     button.disabled = false;
+    return false;
   }
-});
+}
 
-document.getElementById('openClaudeBtn').addEventListener('click', async () => {
+// Button 1: Copy & Open Claude Project
+document.getElementById('extractAndOpenBtn').addEventListener('click', async () => {
+  const button = document.getElementById('extractAndOpenBtn');
+  const originalText = button.textContent;
+
+  // Check if project ID is saved
   const { claudeProjectId } = await chrome.storage.local.get('claudeProjectId');
 
   if (!claudeProjectId) {
@@ -110,9 +117,21 @@ document.getElementById('openClaudeBtn').addEventListener('click', async () => {
     return;
   }
 
-  chrome.tabs.create({
-    url: `https://claude.ai/project/${claudeProjectId}`
-  });
+  // Extract and copy
+  const success = await extractAndCopy(button, originalText);
+
+  // Open Claude project if extraction succeeded
+  if (success) {
+    chrome.tabs.create({
+      url: `https://claude.ai/project/${claudeProjectId}`
+    });
+  }
+});
+
+// Button 2: Copy Job Description Only
+document.getElementById('extractBtn').addEventListener('click', async () => {
+  const button = document.getElementById('extractBtn');
+  await extractAndCopy(button, 'Copy Job Description Only');
 });
 
 // Load saved project ID on popup open
