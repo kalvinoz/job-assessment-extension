@@ -134,13 +134,6 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
     return;
   }
 
-  // Basic validation - Claude project IDs start with 'proj_'
-  if (!projectId.startsWith('proj_')) {
-    status.className = 'status error';
-    status.textContent = 'Invalid Project ID format. Should start with "proj_"';
-    return;
-  }
-
   await chrome.storage.local.set({ claudeProjectId: projectId });
 
   status.className = 'status success';
