@@ -30,6 +30,52 @@ Before using, you need to update the Claude project URL:
 4. Save the file
 5. Go back to `chrome://extensions/` and click the refresh icon on the extension
 
+## Setting Up Your Claude Pro Project
+
+To get the best assessments, create a dedicated Claude Pro project with the following materials:
+
+### Required Project Files
+
+1. **CV/Resume** - Your current CV in PDF format (aim for 2 pages maximum)
+2. **Detailed Experience Document** - A longer text file with:
+   - Comprehensive work history and achievements
+   - Technical skills and proficiencies
+   - Specific project examples with context, challenges, and outcomes
+   - Quantifiable results where possible
+   - Technologies and methodologies you've used
+3. **Cover Letter Examples** - 2-3 samples of well-written cover letters showing your writing style
+4. **Career Goals** (optional) - What you're looking for, deal-breakers, preferences
+
+### Example Project Instructions
+
+Add these custom instructions to your Claude project to get honest, useful assessments:
+
+```
+You are helping me assess job opportunities. I want your HONEST assessment - be critical where needed.
+
+When I share job descriptions:
+1. Give me a realistic match percentage and explain why
+2. Point out genuine gaps in my experience - don't sugarcoat
+3. Identify both strengths and weaknesses in my candidacy
+4. Flag any red flags in the job posting
+5. Suggest concrete angles for my application
+
+Document formatting guidelines:
+- CVs should be 2-page PDFs, professionally formatted
+- Cover letters should be concise (under 400 words), tailored to the specific role
+- Focus on impact and results, not just responsibilities
+- Match the tone and language of the target company
+
+Be direct and actionable. I value constructive criticism over false confidence.
+```
+
+### Tips for Better Assessments
+
+- **Keep files updated** - Refresh your CV and experience document as you complete projects
+- **Add context** - Include why certain projects were significant, what you learned
+- **Be specific** - Numbers, metrics, and concrete examples help Claude give better advice
+- **Update regularly** - As you apply to roles, save good cover letters back to the project
+
 ## Usage
 
 1. Navigate to any job posting (LinkedIn, Seek, etc.)
