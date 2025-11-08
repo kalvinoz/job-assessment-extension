@@ -34,9 +34,14 @@ const ASSESSMENT_PROMPT = `Assess this job opportunity against my background:
 7. **Application Angle**: Strategy for cover letter/CV focus
 
 **NEXT STEPS (only if recommending APPLY):**
-8. Offer to create tailored CV (exactly 2 pages, Google Doc format) and cover letter
+8. Offer to create tailored CV (1.6-2.1 pages, Google Doc format) and cover letter
 9. Wait for my confirmation before proceeding
-10. After creating documents, explicitly confirm: "✓ CV is exactly 2 pages in Google Doc format"
+10. After creating documents:
+    - CRITICAL: Re-read your entire output to verify it sounds natural and professional
+    - Remove any AI-sounding phrases, generic fluff, or obvious template language
+    - Ensure all achievements are specific and quantified where possible
+    - Check that the tone is confident but authentic
+    - Confirm: "✓ CV is between 1.6-2.1 pages in Google Doc format and reviewed for quality"
 
 ---
 
