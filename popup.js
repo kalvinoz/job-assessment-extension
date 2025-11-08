@@ -135,7 +135,8 @@ document.getElementById('extractAndOpenBtn').addEventListener('click', async () 
 // Button 2: Copy Job Description Only
 document.getElementById('extractBtn').addEventListener('click', async () => {
   const button = document.getElementById('extractBtn');
-  await extractAndCopy(button, 'Copy Job Description Only');
+  const originalText = button.textContent;
+  await extractAndCopy(button, originalText);
 });
 
 // Load saved project ID on popup open
